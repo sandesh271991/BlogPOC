@@ -26,5 +26,11 @@ class BlogCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         imgAvatar.layer.cornerRadius = 25
+
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
     }
 }
+

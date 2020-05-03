@@ -11,4 +11,4 @@ import Foundation
 let blogCellId = "blogCell"
 let blogLocalDataEntity = "Blogs"
 
-let webserviceURL = "http://api.openweathermap.org/data/2.5/weather?"
+let webserviceURL = "https://5e99a9b1bc561b0016af3540.mockapi.io/jet2/api/v1/blogs"

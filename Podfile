@@ -4,17 +4,19 @@
 target 'Blog' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-pod 'Alamofire'
+  pod 'Alamofire'
+  pod 'SwiftLint'
 
+  
   # Pods for Blog
-
+  
   target 'BlogTests' do
     inherit! :search_paths
     # Pods for testing
   end
-
+  
   target 'BlogUITests' do
     # Pods for testing
   end
-
+  
 end

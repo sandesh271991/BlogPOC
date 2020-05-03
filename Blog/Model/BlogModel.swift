@@ -44,4 +44,3 @@ struct User: Codable {
 
 typealias Blog = [BlogElement]
 
-

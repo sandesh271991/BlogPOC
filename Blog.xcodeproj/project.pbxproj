@@ -209,8 +209,8 @@
 			children = (
 				023AA2A1245EC3FA006A27E5 /* Helper.swift */,
 				02FCBB29245ECF3600693F4B /* AppConstants.swift */,
-				02FCBB2B245ED04000693F4B /* Double+Extension.swift */,
 				02FCBB2D245ED09900693F4B /* UIImage+Extension.swift */,
+				02FCBB2B245ED04000693F4B /* Double+Extension.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -250,6 +250,7 @@
 				0235666E2458782300AA7FA9 /* Frameworks */,
 				0235666F2458782300AA7FA9 /* Resources */,
 				50005C09EB911A21F268EBC6 /* [CP] Embed Pods Frameworks */,
+				02FCBB2F245EE86800693F4B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -370,6 +371,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		02FCBB2F245EE86800693F4B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "
+";
+		};
 		50005C09EB911A21F268EBC6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

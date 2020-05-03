@@ -10,15 +10,13 @@ import Foundation
 import UIKit
 
 class BlogViewModel: NSObject {
- 
-    static func getdat(page:Int, completionHandler:@escaping (Blog?)-> Void ){
-        Webservice.shared.getData(with: "https://5e99a9b1bc561b0016af3540.mockapi.io/jet2/api/v1/blogs") { (blogData, error) in
+    static func getdat(page: Int, completionHandler: @escaping (Blog?) -> Void) {
+        Webservice.shared.getData(with: webserviceURL) { (blogData, error) in
             if error != nil {
                 return
             }
             guard let blogData = blogData else {return}
             completionHandler(blogData)
-            //subclassing in nsopration quewq
         }
     }
     var blog: Blog?
@@ -26,7 +24,6 @@ class BlogViewModel: NSObject {
     var numberofRows: Int {
         return blog?.count ?? 0
     }
-    
     init(blog: Blog) {
         self.blog = blog
     }

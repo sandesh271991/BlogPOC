@@ -9,35 +9,41 @@
 import UIKit
 import CoreData
 
-
 class ViewController: UIViewController{
     
     @IBOutlet weak var tableview: UITableView!
-    fileprivate var tasks = [URLSessionTask]()
     var pageCount: Int = 1
-    
     var blogViewModel: BlogViewModel?
-    
     var getBlogList = [BlogElement]()
     var showBlogList = [AnyObject]()
+    var refreshControl: UIRefreshControl?
     
-    
+    // MARK: - View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.fetchData()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         tableview?.rowHeight = UITableView.automaticDimension
         tableview?.estimatedRowHeight = 500.0
+        tableview.separatorColor = .black
     }
     
-    func fetchData(){
-        
+    func updateView() {
+        //Add refresh control for pull to refresh purpose
+        self.refreshControl = UIRefreshControl.init()
+        self.refreshControl?.addTarget(self, action: #selector(ViewController.fetchData), for: .valueChanged)
+        self.tableview?.addSubview(refreshControl!)
+        self.tableview?.allowsSelection = false
+
+        self.tableview.reloadData()
+    }
+    
+    // MARK: - To get API data
+    @objc func fetchData(){
         if isConnectedToInternet() == true {
-            
             BlogViewModel.getdat(page: pageCount) { (blog) in
+                self.refreshControl?.endRefreshing()
+                
                 self.blogViewModel = BlogViewModel.init(blog: blog ?? [])
                 self.getBlogList = self.blogViewModel?.blog ?? []
                 
@@ -45,47 +51,28 @@ class ViewController: UIViewController{
                     self.createData(blog: blog)
                 }
                 self.retrieveData()
-                self.updateView()
+                
+                DispatchQueue.main.async {
+                    self.updateView()
+                }
             }
         }
         else {
-            
-            if entityIsEmpty(entity: "Blogs"){
+            if entityIsEmpty(entity: blogLocalDataEntity){
                 showAlert(title: "No Internet Connection", message: "Please check your internet connection")
             }
             else{
                 showAlert(title: "No Internet Connection", message: "Showing offline data")
                 self.retrieveData()
-                self.updateView()
+                DispatchQueue.main.async {
+                    self.updateView()
+                }
             }
         }
+        
     }
     
-    func entityIsEmpty(entity: String) -> Bool
-    {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        
-        let context = appDelegate!.persistentContainer.viewContext
-        
-        //  let context = NSManagedObjectContext()
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
-        var results : NSArray?
-        
-        do {
-            results = try context.fetch(request) as! [NSManagedObject] as NSArray
-            
-            return results!.count == 0
-            
-        } catch let error as NSError {
-            // failure
-            print("Error: \(error.debugDescription)")
-            return true
-        }
-    }
-    
-   
-    
-    //CORE DATA CRUD
+    // MARK: - CORE DATA CRUD
     func createData(blog: BlogElement){
         
         //As we know that container is set up in the AppDelegates so we need to refer that container.
@@ -139,6 +126,7 @@ class ViewController: UIViewController{
     
     
     func retrieveData() {
+        
         //As we know that container is set up in the AppDelegates so we need to refer that container.
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         
@@ -150,57 +138,30 @@ class ViewController: UIViewController{
         
         do {
             let result = try managedContext.fetch(fetchRequest)
-            for data in result as! [NSManagedObject] {
+            for data in result as? [NSManagedObject] ?? [] {
                 self.showBlogList.append(data)
             }
         } catch {
             print("Failed")
         }
+        self.refreshControl?.endRefreshing()
+
     }
     
-    func updateView() {
-        self.tableview.reloadData()
-    }
-    
-    // MARK: - Image downloading
-    
-    fileprivate func downloadImage(forItemAtIndex index: Int) {
-        let url = URL(fileURLWithPath: "\(self.blogViewModel?.blog?[index].user[0].avatar ?? "")")
-        guard tasks.firstIndex(where: { $0.originalRequest?.url == url }) == nil else {
-            // We're already downloading the image.
-            return
+    func entityIsEmpty(entity: String) -> Bool
+    {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let context = appDelegate!.persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        var results : NSArray?
+        
+        do {
+            results = try context.fetch(request) as? [NSManagedObject] as NSArray?
+            return results!.count == 0
+        } catch let error as NSError {
+            // failure
+            print("Error: \(error.debugDescription)")
+            return true
         }
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            // Perform UI changes only on main thread.
-            DispatchQueue.main.async {
-                if let data = data, let image = UIImage(data: data) {
-                    // self.items[index].image = image
-                    
-                    // Reload cell with fade animation.
-                    let indexPath = IndexPath(row: index, section: 0)
-                    if let cell = self.tableview.cellForRow(at: indexPath) as? BlogCell {
-                        cell.imgAvatar.image = image
-                    }
-                    
-                    if self.tableview.indexPathsForVisibleRows?.contains(indexPath) ?? false {
-                        self.tableview.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
-                    }
-                }
-            }
-        }
-        task.resume()
-        tasks.append(task)
-    }
-    
-    fileprivate func cancelDownloadingImage(forItemAtIndex index: Int) {
-        let url = URL(fileURLWithPath: "\(self.blogViewModel?.blog?[index].user[0].avatar ?? "")")
-        // Find a task with given URL, cancel it and delete from `tasks` array.
-        guard let taskIndex = tasks.firstIndex(where: { $0.originalRequest?.url == url }) else {
-            return
-        }
-        let task = tasks[taskIndex]
-        task.cancel()
-        tasks.remove(at: taskIndex)
     }
 }
-

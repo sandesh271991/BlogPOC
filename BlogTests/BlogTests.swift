@@ -10,9 +10,15 @@ import XCTest
 @testable import Blog
 
 class BlogTests: XCTestCase {
+    
+    var blogDataModel: Blog!
+    var blogViewModel: BlogViewModel!
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        blogDataModel = Blog(arrayLiteral: BlogElement(id: "", createdAt: "", content: "", comments: 2, likes: 2, media: [], user: []))
+             
+        blogViewModel = BlogViewModel(blog: blogDataModel)
+        
     }
 
     override func tearDown() {
@@ -31,4 +37,13 @@ class BlogTests: XCTestCase {
         }
     }
 
+    
+    func testInitializationWithModel() {
+    
+        XCTAssertNotNil(blogViewModel, "Blog View model should not be nil")
+    
+        XCTAssertTrue(blogViewModel.blog!.count > 0, "Blogs should not be empty" )
+        XCTAssertTrue(blogViewModel.blog?.count == blogDataModel.count, "Blogs array count in viewmodel should be equal to datamodel" )
+
+    }
 }
