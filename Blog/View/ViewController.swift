@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController{
     
     @IBOutlet weak var tableview: UITableView!
     fileprivate var tasks = [URLSessionTask]()
@@ -25,62 +25,65 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
         self.fetchData()
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         tableview?.rowHeight = UITableView.automaticDimension
         tableview?.estimatedRowHeight = 500.0
     }
     
     func fetchData(){
-        BlogViewModel.getdat(page: pageCount) { (blog) in
-            self.blogViewModel = BlogViewModel.init(blog: blog ?? [])
-            self.getBlogList = self.blogViewModel?.blog ?? []
+        
+        if isConnectedToInternet() == true {
             
-            for blog in self.getBlogList {
-                self.createData(blog: blog)
+            BlogViewModel.getdat(page: pageCount) { (blog) in
+                self.blogViewModel = BlogViewModel.init(blog: blog ?? [])
+                self.getBlogList = self.blogViewModel?.blog ?? []
+                
+                for blog in self.getBlogList {
+                    self.createData(blog: blog)
+                }
+                self.retrieveData()
+                self.updateView()
             }
+        }
+        else {
             
-            self.retrieveData()
-            self.updateView()
+            if entityIsEmpty(entity: "Blogs"){
+                showAlert(title: "No Internet Connection", message: "Please check your internet connection")
+            }
+            else{
+                showAlert(title: "No Internet Connection", message: "Showing offline data")
+                self.retrieveData()
+                self.updateView()
+            }
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.getBlogList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var blogCell: BlogCell? = tableView.dequeueReusableCell(withIdentifier: "blogCell", for: indexPath) as? BlogCell
+    func entityIsEmpty(entity: String) -> Bool
+    {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
         
-        if blogCell == nil {
-            blogCell = BlogCell.init(style: .default, reuseIdentifier: "blogCell")
+        let context = appDelegate!.persistentContainer.viewContext
+        
+        //  let context = NSManagedObjectContext()
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        var results : NSArray?
+        
+        do {
+            results = try context.fetch(request) as! [NSManagedObject] as NSArray
+            
+            return results!.count == 0
+            
+        } catch let error as NSError {
+            // failure
+            print("Error: \(error.debugDescription)")
+            return true
         }
-        
-        blogCell?.lblUserName.text = self.showBlogList[indexPath.row].value(forKey: "username") as? String
-        blogCell?.lblBlogTitle.text = self.showBlogList[indexPath.row].value(forKey: "blogtitle") as? String
-        blogCell?.imgAvatar.loadImageUsingCache(withUrl: self.showBlogList[indexPath.row].value(forKey: "avatar") as? String ?? "")
-        blogCell?.imgBlog.loadImageUsingCache(withUrl: self.showBlogList[indexPath.row].value(forKey: "blogimage") as? String ?? "")
-        
-        blogCell?.lblUserDesignation.text = self.showBlogList[indexPath.row].value(forKey: "userdesignation") as? String
-        blogCell?.lblBlogLikes.text = "\(self.showBlogList[indexPath.row].value(forKey: "likes") ?? "") Likes"
-        blogCell?.lblComments.text = "\(self.showBlogList[indexPath.row].value(forKey: "comments") ?? "") Commnets"
-        blogCell?.lblBlogURL.text = self.showBlogList[indexPath.row].value(forKey: "blogurl") as? String
-        
-        blogCell?.lblBlogContent.text = self.showBlogList[indexPath.row].value(forKey: "blogcontent") as? String
-        blogCell?.lblBlogTime.text = self.showBlogList[indexPath.row].value(forKey: "blogtime") as? String
-        
-        return blogCell!
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
+   
     
     //CORE DATA CRUD
     func createData(blog: BlogElement){
@@ -92,7 +95,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let managedContext = appDelegate.persistentContainer.viewContext
         
         //Now let’s create an entity and new user records.
-        let userEntity = NSEntityDescription.entity(forEntityName: "Blogs", in: managedContext)!
+        let userEntity = NSEntityDescription.entity(forEntityName: blogLocalDataEntity, in: managedContext)!
         
         //final, we need to add some data to our newly created record for each keys using
         let user = NSManagedObject(entity: userEntity, insertInto: managedContext)
@@ -136,7 +139,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     func retrieveData() {
-        
         //As we know that container is set up in the AppDelegates so we need to refer that container.
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         
@@ -144,33 +146,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let managedContext = appDelegate.persistentContainer.viewContext
         
         //Prepare the request of type NSFetchRequest  for the entity
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Blogs")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: blogLocalDataEntity)
         
         do {
             let result = try managedContext.fetch(fetchRequest)
             for data in result as! [NSManagedObject] {
-                print(data.value(forKey: "comments"))
-                print(data.value(forKey: "avatar"))
-                print(data.value(forKey: "blogtitle"))
                 self.showBlogList.append(data)
             }
         } catch {
             print("Failed")
-        }
-    }
-    
-    
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        
-        // UITableView only moves in one direction, y axis
-        let currentOffset = scrollView.contentOffset.y
-        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        
-        // Change 10.0 to adjust the distance from bottom
-        if maximumOffset - currentOffset <= 10.0 {
-            pageCount += 1
-            self.fetchData()
         }
     }
     
@@ -220,40 +204,3 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 }
 
-
-let imageCache = NSCache<NSString, UIImage>()
-extension UIImageView {
-    func loadImageUsingCache(withUrl urlString : String) {
-        let url = URL(string: urlString)
-        if url == nil {return}
-        self.image = nil
-        
-        // check cached image
-        if let cachedImage = imageCache.object(forKey: urlString as NSString)  {
-            self.image = cachedImage
-            return
-        }
-        
-        let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView.init(style: .medium)
-        addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-        activityIndicator.center = self.center
-        
-        // if not, download image from url
-        URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
-            if error != nil {
-                print(error!)
-                return
-            }
-            
-            DispatchQueue.main.async {
-                if let image = UIImage(data: data!) {
-                    imageCache.setObject(image, forKey: urlString as NSString)
-                    self.image = image
-                    activityIndicator.removeFromSuperview()
-                }
-            }
-            
-        }).resume()
-    }
-}

@@ -7,8 +7,8 @@
         <attribute name="blogtime" optional="YES" attributeType="String"/>
         <attribute name="blogtitle" optional="YES" attributeType="String"/>
         <attribute name="blogurl" optional="YES" attributeType="String"/>
-        <attribute name="comments" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="likes" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="comments" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="likes" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="userdesignation" optional="YES" attributeType="String"/>
         <attribute name="username" optional="YES" attributeType="String"/>
     </entity>

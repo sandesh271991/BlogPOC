@@ -16,10 +16,15 @@
 		023566842458782A00AA7FA9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 023566822458782A00AA7FA9 /* LaunchScreen.storyboard */; };
 		0235668F2458782B00AA7FA9 /* BlogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0235668E2458782B00AA7FA9 /* BlogTests.swift */; };
 		0235669A2458782B00AA7FA9 /* BlogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023566992458782B00AA7FA9 /* BlogUITests.swift */; };
+		023AA2A2245EC3FA006A27E5 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023AA2A1245EC3FA006A27E5 /* Helper.swift */; };
 		025B7F1D2459461300242AD5 /* BlogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025B7F1C2459461300242AD5 /* BlogModel.swift */; };
 		025B7F1F2459468600242AD5 /* Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025B7F1E2459468600242AD5 /* Webservice.swift */; };
 		025B7F2124594A9100242AD5 /* BlogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025B7F2024594A9100242AD5 /* BlogCell.swift */; };
 		0276E414245957E900EE47BC /* BlogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0276E413245957E900EE47BC /* BlogViewModel.swift */; };
+		02FCBB28245ECCC100693F4B /* ViewController+TableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FCBB27245ECCC000693F4B /* ViewController+TableView+Extension.swift */; };
+		02FCBB2A245ECF3600693F4B /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FCBB29245ECF3600693F4B /* AppConstants.swift */; };
+		02FCBB2C245ED04100693F4B /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FCBB2B245ED04000693F4B /* Double+Extension.swift */; };
+		02FCBB2E245ED09900693F4B /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FCBB2D245ED09900693F4B /* UIImage+Extension.swift */; };
 		2227FFC3B57B5684A3E6E6FD /* Pods_Blog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D8553C52566BDD3153E83BF /* Pods_Blog.framework */; };
 		295A80816B564CCEA1B1C256 /* Pods_BlogTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9CA4CE666F4B0EFB31F736 /* Pods_BlogTests.framework */; };
 		C83B9EAD68F6867D6D8BD082 /* Pods_Blog_BlogUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 467EC1791247C854BB20751C /* Pods_Blog_BlogUITests.framework */; };
@@ -58,10 +63,15 @@
 		023566952458782B00AA7FA9 /* BlogUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlogUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		023566992458782B00AA7FA9 /* BlogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlogUITests.swift; sourceTree = "<group>"; };
 		0235669B2458782B00AA7FA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		023AA2A1245EC3FA006A27E5 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		025B7F1C2459461300242AD5 /* BlogModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlogModel.swift; sourceTree = "<group>"; };
 		025B7F1E2459468600242AD5 /* Webservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Webservice.swift; sourceTree = "<group>"; };
 		025B7F2024594A9100242AD5 /* BlogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlogCell.swift; sourceTree = "<group>"; };
 		0276E413245957E900EE47BC /* BlogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlogViewModel.swift; sourceTree = "<group>"; };
+		02FCBB27245ECCC000693F4B /* ViewController+TableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+TableView+Extension.swift"; sourceTree = "<group>"; };
+		02FCBB29245ECF3600693F4B /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		02FCBB2B245ED04000693F4B /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
+		02FCBB2D245ED09900693F4B /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		11BDE7B9A7275A3E102834E8 /* Pods-Blog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blog.debug.xcconfig"; path = "Target Support Files/Pods-Blog/Pods-Blog.debug.xcconfig"; sourceTree = "<group>"; };
 		1D8553C52566BDD3153E83BF /* Pods_Blog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Blog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		443C23AA9F95222E25DBA2BE /* Pods-BlogTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlogTests.debug.xcconfig"; path = "Target Support Files/Pods-BlogTests/Pods-BlogTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -171,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				023566782458782300AA7FA9 /* ViewController.swift */,
+				02FCBB27245ECCC000693F4B /* ViewController+TableView+Extension.swift */,
 				0235667A2458782300AA7FA9 /* Main.storyboard */,
 				025B7F2024594A9100242AD5 /* BlogCell.swift */,
 			);
@@ -196,6 +207,10 @@
 		025B7F1B245945DB00242AD5 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				023AA2A1245EC3FA006A27E5 /* Helper.swift */,
+				02FCBB29245ECF3600693F4B /* AppConstants.swift */,
+				02FCBB2B245ED04000693F4B /* Double+Extension.swift */,
+				02FCBB2D245ED09900693F4B /* UIImage+Extension.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -462,11 +477,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02FCBB2E245ED09900693F4B /* UIImage+Extension.swift in Sources */,
 				023566792458782300AA7FA9 /* ViewController.swift in Sources */,
 				0235667F2458782300AA7FA9 /* Blog.xcdatamodeld in Sources */,
+				02FCBB28245ECCC100693F4B /* ViewController+TableView+Extension.swift in Sources */,
+				02FCBB2A245ECF3600693F4B /* AppConstants.swift in Sources */,
 				025B7F2124594A9100242AD5 /* BlogCell.swift in Sources */,
 				025B7F1F2459468600242AD5 /* Webservice.swift in Sources */,
 				023566752458782300AA7FA9 /* AppDelegate.swift in Sources */,
+				023AA2A2245EC3FA006A27E5 /* Helper.swift in Sources */,
+				02FCBB2C245ED04100693F4B /* Double+Extension.swift in Sources */,
 				023566772458782300AA7FA9 /* SceneDelegate.swift in Sources */,
 				0276E414245957E900EE47BC /* BlogViewModel.swift in Sources */,
 				025B7F1D2459461300242AD5 /* BlogModel.swift in Sources */,
