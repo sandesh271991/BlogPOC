@@ -26,7 +26,14 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         blogCell?.lblUserName.text = self.showBlogList[indexPath.row].value(forKey: "username") as? String
         blogCell?.lblBlogTitle.text = self.showBlogList[indexPath.row].value(forKey: "blogtitle") as? String
         blogCell?.imgAvatar.loadImageUsingCache(withUrl: self.showBlogList[indexPath.row].value(forKey: "avatar") as? String ?? "")
-        blogCell?.imgBlog.loadImageUsingCache(withUrl: self.showBlogList[indexPath.row].value(forKey: "blogimage") as? String ?? "")
+        if self.showBlogList[indexPath.row].value(forKey: "blogimage") as! String != "-" {
+            blogCell?.imgBlog.loadImageUsingCache(withUrl: self.showBlogList[indexPath.row].value(forKey: "blogimage") as! String)
+            blogCell?.blogImgHC.constant = 100
+        }
+        else{
+            blogCell?.blogImgHC.constant = 0
+        }
+       
         blogCell?.lblUserDesignation.text = self.showBlogList[indexPath.row].value(forKey: "userdesignation") as? String
         blogCell?.lblBlogLikes.text = Double("\(self.showBlogList[indexPath.row].value(forKey: "likes") ?? "0")")!.kmFormatted + " Likes"
         blogCell?.lblComments.text = Double("\(self.showBlogList[indexPath.row].value(forKey: "comments") ?? "0")")!.kmFormatted + " Comments"

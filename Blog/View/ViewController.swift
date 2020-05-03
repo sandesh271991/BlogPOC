@@ -34,7 +34,7 @@ class ViewController: UIViewController{
         self.refreshControl?.addTarget(self, action: #selector(ViewController.fetchData), for: .valueChanged)
         self.tableview?.addSubview(refreshControl!)
         self.tableview?.allowsSelection = false
-
+        
         self.tableview.reloadData()
     }
     
@@ -47,11 +47,13 @@ class ViewController: UIViewController{
                 self.blogViewModel = BlogViewModel.init(blog: blog ?? [])
                 self.getBlogList = self.blogViewModel?.blog ?? []
                 
-                for blog in self.getBlogList {
-                    self.createData(blog: blog)
+                if self.entityIsEmpty(entity: blogLocalDataEntity){
+                    for blog in self.getBlogList {
+                        self.createData(blog: blog)
+                    }
                 }
-                self.retrieveData()
                 
+                self.retrieveData()
                 DispatchQueue.main.async {
                     self.updateView()
                 }
@@ -145,7 +147,6 @@ class ViewController: UIViewController{
             print("Failed")
         }
         self.refreshControl?.endRefreshing()
-
     }
     
     func entityIsEmpty(entity: String) -> Bool

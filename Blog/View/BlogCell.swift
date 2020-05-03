@@ -21,6 +21,7 @@ class BlogCell: UITableViewCell {
     @IBOutlet weak var lblBlogLikes: UILabel!
     @IBOutlet weak var lblComments: UILabel!
     
+    @IBOutlet weak var blogImgHC: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()

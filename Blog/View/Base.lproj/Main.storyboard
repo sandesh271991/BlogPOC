@@ -128,6 +128,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.91171317713915501" green="0.90932605335515071" blue="0.95102315989847719" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
+                                            <outlet property="blogImgHC" destination="7qn-bg-UhU" id="IOh-HM-SIc"/>
                                             <outlet property="imgAvatar" destination="H57-FW-n47" id="XnG-Om-gyB"/>
                                             <outlet property="imgBlog" destination="Ur3-TU-bie" id="nPa-X8-glu"/>
                                             <outlet property="lblBlogContent" destination="Wwr-Tm-g5n" id="n1K-0h-XO6"/>
